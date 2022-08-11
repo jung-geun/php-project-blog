@@ -1,0 +1,5 @@
+db
+*.html
+data
+tailwindcss
+.vscode/sftp.json
