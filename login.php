@@ -80,4 +80,4 @@ if ($_SESSION['user_id'] != null) {
 
 </body>
 
-</html>
+<.php>
