@@ -1,5 +1,10 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8");
+$mobile_agent = "/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH-M\d+|Opera Mini|Windows CE|Nokia|SonyEricsson|webOS|PalmOS)/";
+
+if (preg_match($mobile_agent, $_SERVER['HTTP_USER_AGENT'])) {
+    echo "<script>location.href='loginm';</script>";
+}
 if (!session_id()) {
     session_start();
 }
@@ -18,8 +23,7 @@ if ($_SESSION['user_id'] != null) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
 
-    <link href="/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+    <link href="/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
 
     <!-- CSS only -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" -->
@@ -31,6 +35,7 @@ if ($_SESSION['user_id'] != null) {
 
 <body class="bg-dark">
     <div class="container">
+
         <div class="backbox">
             <div class="loginMsg">
                 <div class="textcontent">
@@ -49,6 +54,7 @@ if ($_SESSION['user_id'] != null) {
         </div>
         <!-- backbox -->
 
+
         <div class="frontbox">
             <form class="login" action="loginProc.php" method="POST" name="loginform" onsubmit="return checkid()">
                 <h2>LOG IN</h2>
@@ -60,8 +66,7 @@ if ($_SESSION['user_id'] != null) {
                 <button type="submit">LOG IN</button>
             </form>
 
-            <form class="signup hide" action="registerProc.php" method="POST" name="registerform"
-                onsubmit="return registercheck()">
+            <form class="signup hide" action="registerProc.php" method="POST" name="registerform" onsubmit="return registercheck()">
                 <h2>SIGN UP</h2>
                 <div class="inputbox">
                     <input type="text" name="user_name" id="regname" placeholder="  FULLNAME">
@@ -80,4 +85,4 @@ if ($_SESSION['user_id'] != null) {
 
 </body>
 
-<.php>
+</html>

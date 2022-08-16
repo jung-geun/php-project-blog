@@ -43,9 +43,16 @@ $db_conn = new db_conn();
             <form action="writeProc" method="POST">
 
                 <h1>게시글 작성</h1>
-                <input name="title " id="inputTitle" placeholder="제목을 작성해주세요" />
+                <input name="title" id="inputTitle" placeholder="제목을 작성해주세요" />
+                <select NAME=category SIZE=1>
+                    <?php
+                    foreach ($db_conn->category_list() as $row) {
+                        echo "<option value='" . $row['category_id'] . "'>" . $row['category_name'] . "</option>";
+                    }
+                    ?>
+                </select>
                 <textarea id="summernote" name="content"></textarea>
-                <input type="file" name="file[]" multiple>
+                <input type="file" name="upload_file[]" multiple>
                 <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
                 <button class="btn btn-light">완료</button>
             </form>

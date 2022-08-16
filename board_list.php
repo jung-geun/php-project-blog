@@ -15,8 +15,6 @@ $result = $db_conn->board_list();
     <meta name="description" content="" />
     <title>PieRoot</title>
 
-    <!-- <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/cover/"> -->
-
     <link href="/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
 
@@ -49,7 +47,7 @@ $result = $db_conn->board_list();
                         <?php
                         while ($row = mysqli_fetch_assoc($result)) {
                         ?>
-                        <div class="col shadow-sm">
+                        <div class="col shadow-sm" onclick="">
                             <div class="board-container card shadow-sm h-100">
                                 <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                                     xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
@@ -57,18 +55,18 @@ $result = $db_conn->board_list();
                                     <title><?= $orw['title'] ?></title>
                                     <rect width="100%" height="100%" fill="#55595c" />
                                     <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                                        <?= $row['title'] ?>
+                                        <?php
+                                            echo $row['title'];
+
+                                            echo $db_conn->id_for_category($row['category']); ?>
                                     </text>
                                 </svg>
 
                                 <div class="card-body bg-dark">
                                     <div id="target">
-                                        <div class="card-text nowrap overflow ellipsis line-clamp" id="content"
-                                            style="all: none">
+                                        <div class="card-text nowrap line-clamp board-overflow" id="content">
                                             <?= $row['content'] ?>
-                                            <!-- This is a wider card with supporting text below as a
-                                                natural lead-in to additional content. This content is a
-                                                little bit longer. -->
+
                                         </div>
                                     </div>
                                 </div>
