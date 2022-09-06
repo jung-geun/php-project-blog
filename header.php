@@ -20,15 +20,17 @@ require_once "db/db_connect.php";
 ?>
 <header class="mb-auto">
     <div>
-        <h3 class="float-md-start mb-0" href='/'>PieRoot</h3>
+        <a href="/" class="text-white">
+            <h3 class="float-md-start mb-0" >PieRoot</h3>
+        </a>
         <nav class="nav nav-masthead justify-content-center float-md-end">
             <a class="menu nav-link fw-bold py-1 px-0" aria-current="page" href='/' name='index'>Home</a>
-            <a class="menu nav-link fw-bold py-1 px-0" href='/board_list' name='board'>Board</a>
+            <a class="menu nav-link fw-bold py-1 px-0" href='/post_list' name='board'>Board</a>
             <?php
 
             if ($user_id != null) {
-                echo "<a class='nav-link fw-bold py-1 px-0' href='/board_write'>글쓰기</a>";
-                echo "<a class='nav-link fw-bold py-1 px-0' href='/my_page'> $user_name </a>";
+                echo "<a class='nav-link fw-bold py-1 px-0' href='/post_write'>글쓰기</a>";
+                echo "<a class='nav-link fw-bold py-1 px-0' href='/user?id=$user_id'> $user_name </a>";
                 if ($permission == 2 or $permission == 3) {
                     echo "<a class='nav-link fw-bold py-1 px-0' href='/admin/'>관리자</a>";
                 }

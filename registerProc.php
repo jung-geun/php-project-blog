@@ -16,6 +16,7 @@ try {
         echo "되냐?<br>";
         if ($result_reg == 1) {
             // echo "<script>alert('회원가입 성공!');</script>";
+            mkdir("./user_data/@$user_id", 0700);
             echo "<script>location.href='login.php';</script>";
         } else if ($result_reg == -1) {
             // echo "<script>alert('회원가입 실패!');</script>";

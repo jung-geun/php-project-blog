@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:300");
+
 * {
   box-sizing: border-box;
   font-family: inherit;
@@ -26,15 +27,18 @@ body {
   position: relative;
   text-align: center;
 }
+
 .header__text {
   position: relative;
   padding: 3.5rem 0 7rem;
 }
-.header__text > h1 {
+
+.header__text>h1 {
   margin: 0;
   font-size: 2.5rem;
 }
-.header > .trapezoid {
+
+.header>.trapezoid {
   position: absolute;
   top: 0;
   left: 0;
@@ -53,10 +57,12 @@ form {
   max-width: 17rem;
   overflow: auto;
 }
-form > * + * {
+
+form>*+* {
   margin-top: 1rem;
 }
-form > input {
+
+form>input {
   border: 0;
   border-bottom: 1px solid #1126be;
   border-radius: 0;
@@ -67,19 +73,24 @@ form > input {
   color: #1126be;
   background: #fefefe;
 }
-form > input:focus {
+
+form>input:focus {
   outline: none;
 }
-form > input::-moz-placeholder {
+
+form>input::-moz-placeholder {
   color: #1126be;
 }
-form > input:-ms-input-placeholder {
+
+form>input:-ms-input-placeholder {
   color: #1126be;
 }
-form > input::placeholder {
+
+form>input::placeholder {
   color: #1126be;
 }
-form > button {
+
+form>button {
   margin-top: 2rem;
   border: 0;
   border-radius: 200px;
@@ -89,10 +100,12 @@ form > button {
   color: #fefefe;
   background: #1126be;
 }
-form > button:focus {
+
+form>button:focus {
   outline: none;
 }
-form > p {
+
+form>p {
   margin: 0.25rem 0 0;
   text-align: center;
   color: #1126be;
@@ -105,4 +118,6 @@ form > p {
 .opposite-btn1,
 .opposite-btn2 {
   cursor: pointer;
-}/*# sourceMappingURL=loginm_style.css.map */
+}
+
+/*# sourceMappingURL=loginm_style.css.map */

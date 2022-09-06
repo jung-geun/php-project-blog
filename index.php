@@ -26,15 +26,14 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column" id="reloaddiv">
         <?php include_once 'header.php'; ?>
 
-        <main class=" px-3">
+        <main class="px-3">
             <h1>여긴 개인 블로그 입니다</h1>
             <p class="lead">
                 공부하고 배운 각종 지식들과 자료들을
                 업로드하고 관리하는 블로그입니다.
-                ddsd45ddsad
             </p>
             <p class="lead">
-                <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
+                <a href="post_list" class="btn btn-lg btn-secondary fw-bold border-white bg-white">more</a>
             </p>
         </main>
 

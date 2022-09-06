@@ -3,3 +3,6 @@ db
 data
 tailwindcss
 .vscode/sftp.json
+user_data
+noda_modules
+admin/tailwindcss

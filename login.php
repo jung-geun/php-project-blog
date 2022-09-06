@@ -59,8 +59,8 @@ if ($_SESSION['user_id'] != null) {
             <form class="login" action="loginProc.php" method="POST" name="loginform" onsubmit="return checkid()">
                 <h2>LOG IN</h2>
                 <div class=" inputbox">
-                    <input type="text" name="user_id" id="logID" placeholder="  ID">
-                    <input type="password" name="user_pw" id="logpass" placeholder="  PASSWORD">
+                    <input type="text" name="user_id" id="logID" placeholder="  ID" required="">
+                    <input type="password" name="user_pw" id="logpass" placeholder="  PASSWORD" required="">
                 </div>
                 <p>FORGET PASSWORD?</p>
                 <button type="submit">LOG IN</button>
@@ -69,10 +69,10 @@ if ($_SESSION['user_id'] != null) {
             <form class="signup hide" action="registerProc.php" method="POST" name="registerform" onsubmit="return registercheck()">
                 <h2>SIGN UP</h2>
                 <div class="inputbox">
-                    <input type="text" name="user_name" id="regname" placeholder="  FULLNAME">
-                    <input type="text" name="user_id" id="regID" placeholder="  ID">
-                    <input type="email" name="user_email" id="regemail" placeholder="  EMAIL">
-                    <input type="password" name="user_passwd" id="regpass" placeholder="  PASSWORD">
+                    <input type="text" name="user_name" id="regname" placeholder="  FULLNAME" required="">
+                    <input type="text" name="user_id" id="regID" placeholder="  ID" required="">
+                    <input type="email" name="user_email" id="regemail" placeholder="  EMAIL" required="">
+                    <input type="password" name="user_passwd" id="regpass" placeholder="  PASSWORD" required="">
                 </div>
                 <button type="submit">SIGN UP</button>
             </form>
