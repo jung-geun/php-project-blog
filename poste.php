@@ -7,11 +7,11 @@ $id = null;
 $id = $_GET['id'];
 if ($id == null) {
     echo "<script>alert('잘못된 접근입니다.');</script>";
-    echo "<script>location.href='board_lsit';</script>";
+    echo "<script>location.href='post_lsit';</script>";
 }
 require_once "db/db_connect.php";
 $db_conn = new db_conn();
-$board = $db_conn->board_content($id);
+$board = $db_conn->post_content($id);
 $row = mysqli_fetch_assoc($board);
 $content = $row['content'];
 
@@ -55,75 +55,10 @@ $content = $row['content'];
         <?php include "footer.php"; ?>
 
     </div>
-    <script>
-    $('#summernote').summernote({
-        placeholder: 'Hello stand alone ui',
-        tabsize: 2,
-        height: 570,
-        lang: "ko-KR",
-        resize: false,
-        disableResizeEditor: true,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
+  
+    <script src="./js/post_summernote.js"></script>
 
-    $('#summernote').summernote('code', "<?php echo $content ?>");
-    $(".note-group-image-url").remove();
-
-    $("#submit-btn").click(function() {
-        var text = $('#summernote').summernote('code');
-
-    });
-
-
-    function RealTimeImageUpdate(files, editor) {
-        var formData = new FormData();
-        var fileArr = Array.prototype.slice.call(files);
-        fileArr.forEach(function(f) {
-            if (f.type.match("image/jpg") || f.type.match("image/jpeg" || f.type.match("image/jpeg"))) {
-                alert("JPG, JPEG, PNG 확장자만 업로드 가능합니다.");
-                return;
-            }
-        });
-        for (var xx = 0; xx < files.length; xx++) {
-            formData.append("file[]", files[xx]);
-        }
-
-        $.ajax({
-            url: "./이미지 받을 백엔드 파일",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            enctype: 'multipart/form-data',
-            type: 'POST',
-            success: function(result) {
-
-                //항상 업로드된 파일의 url이 있어야 한다.
-                if (result === -1) {
-                    alert('이미지 파일이 아닙니다.');
-                    return;
-                }
-                var data = JSON.parse(result);
-                for (x = 0; x < data.length; x++) {
-                    var img = $("<img>").attr({
-                        src: data[x],
-                        width: "100%"
-                    }); // Default 100% ( 서비스가 앱이어서 이미지 크기를 100% 설정 - But 수정 가능 )
-                    console.log(img);
-                    $(editor).summernote('pasteHTML', "<img src='" + data[x] + "' style='width:100%;' />");
-                }
-            }
-        });
-    }
-    </script>
+    <script src="./js/board_write.js"></script>
 </body>
 
 </html>

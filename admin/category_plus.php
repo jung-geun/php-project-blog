@@ -1,8 +1,8 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8");
-require_once "../db/db_connect.php";
+require_once 'per_check.php';
 $db_conn = new db_conn();
-$list = $db_conn->board_list();
+$list = $db_conn->category_list();
 
 ?>
 <!DOCTYPE html>
@@ -19,17 +19,12 @@ $list = $db_conn->board_list();
     <title>PieRoot</title>
     <?php include "head.php"; ?>
 
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link rel="stylesheet" type="text/css" href="DataTables/datatables.min.css" />
-
-    <script type="text/javascript" src="DataTables/datatables.min.js"></script>
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
 
 </head>
 
@@ -52,38 +47,33 @@ $list = $db_conn->board_list();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                            href="https://datatables.net">official DataTables documentation</a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">Category</h1>
+                    <div class="size">
+                        <form action="category_add.php" method="POST" name="category" onsubmit="return cate()">
+                            <input class="text-form-control" placeholder="category" type="text" id="input_category" name="category" />
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
+                        </form>
+                    </div>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">category list</h6>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Editor</th>
-                                            <th>Category</th>
-                                            <th>id</th>
-                                            <th>Write Date</th>
-                                            <th>last Edit Date</th>
+                                            <th>category_id</th>
+                                            <th>category_name</th>
                                             <th>비고</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Editor</th>
-                                            <th>Category</th>
-                                            <th>id</th>
-                                            <th>Write Date</th>
-                                            <th>last Edit Date</th>
+                                            <th>category_id</th>
+                                            <th>category_name</th>
                                             <th>비고</th>
                                         </tr>
                                     </tfoot>
@@ -91,23 +81,19 @@ $list = $db_conn->board_list();
                                         <?php
                                         while ($row = mysqli_fetch_array($list)) {
                                         ?>
-                                        <tr>
-                                            <td><?= $row['title'] ?></td>
-                                            <td><?= $row['editor'] ?></td>
-                                            <td><?= $row['category'] ?></td>
-                                            <td><?= $row['id'] ?></td>
-                                            <td><?= $row['write_date'] ?></td>
-                                            <td><?= $row['edit_date'] ?></td>
-                                            <td>
-                                                <a href="board_edit.php?id=<?= $row['id'] ?>">
-                                                    <button class="btn btn-primary">수정</button>
-                                                </a>
-                                                <a href="board_delete.php?id=<?= $row['id'] ?>">
-                                                    <button class="btn btn-danger">삭제</button>
-                                                </a>
+                                            <tr>
+                                                <td><?= $row['category_id'] ?></td>
+                                                <td><?= $row['category_name'] ?></td>
+                                                <td>
+                                                    <a href="category_edit.php?id=<?= $row['category_id'] ?>&name=<?= $row['category_name'] ?>">
+                                                        <button class="btn btn-primary">수정</button>
+                                                    </a>
+                                                    <a href="category_del.php?id=<?= $row['category_id'] ?>&name=<?= $row['category_name'] ?>" onclick="return confirm('삭제 하시겠습니까?')">
+                                                        <button class="btn btn-danger">삭제</button>
+                                                    </a>
 
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                         <?php
                                         }
                                         ?>
@@ -123,15 +109,7 @@ $list = $db_conn->board_list();
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <?php require_once "footer.php"; ?>
 
         </div>
         <!-- End of Content Wrapper -->
@@ -139,30 +117,6 @@ $list = $db_conn->board_list();
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <?php include "bottom.php" ?>
 
@@ -179,10 +133,23 @@ $list = $db_conn->board_list();
 
 
     <script>
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
-    });
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+
+        function cate() {
+            var category = document.category;
+            const input_category = category.input_category.value;
+            if (!input_category) {
+                alert("카테고리를 입력해주세요");
+                category.input_category.focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
     </script>
+
 </body>
 
 </html>

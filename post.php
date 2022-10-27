@@ -6,10 +6,10 @@ if (!isset($_GET['id'])) {
 }
 $board_id = $_GET['id'];
 $db_conn = new db_conn();
-$content = $db_conn->board_content($board_id);
+$content = $db_conn->post_content($board_id);
 ?>
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -27,7 +27,7 @@ $content = $db_conn->board_content($board_id);
 </head>
 
 <body class="d-flex text-center text-white bg-dark">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
         <?php include_once "header.php"; ?>
 
         <main class="px-3">
@@ -46,9 +46,21 @@ $content = $db_conn->board_content($board_id);
                     <div class="row py-lg-5">
                         <div class="col-lg-6 col-md-8 mx-auto">
                             <h1 class="fw-light"><?= $row['title'] ?></h1>
-                            <p class="lead text-muted">테스ㅡ트 중입니다</p>
-                            <p class="lead text-muted">작성자 : <?= $row['editor'] ?></p>
-
+                            <!-- <p class="lead text-muted">테스ㅡ트 중입니다</p> -->
+                            <p class="lead text-white">작성자 : <?= $row['editor'] ?></p>
+                            <?php if ($row['write_date'] == $row['edit_date']) {
+                            ?>
+                                <p class="lead form-text text-white-50">작성일 : <?= $row['write_date'] ?></p>
+                            <?php } else { ?>
+                                <p class="lead form-text text-white-50">수정일 : <?= $row['edit_date'] ?></p>
+                            <?php } ?>
+                            <?php
+                            if (isset($_SESSION['user_id'])) {
+                                if ($_SESSION['user_id'] == $row['editor']) {
+                                    echo "<a href='/post_edit.php?id=" . $row['id'] . "' class='btn btn-primary my-2'>수정하기</a>";
+                                }
+                            }
+                            ?>
                         </div>
                         <div>
                             <?php
@@ -67,7 +79,7 @@ $content = $db_conn->board_content($board_id);
     </div>
 
     <!-- <script src="../assets/dist/js/bootstrap.bundle.min.js"></script> -->
-    <script src="js/baord_script.js"></script>
+    <!-- <script src="js/baord_script.js"></script> -->
 </body>
 
 </html>

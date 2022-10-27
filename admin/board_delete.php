@@ -6,7 +6,7 @@ $db_conn = new db_conn();
 $editor = $_GET['editor'];
 $board_id = $_GET['id'];
 
-$result = $db_conn->board_delete($board_id, $editor);
+$result = $db_conn->post_delete($board_id, $editor);
 if ($result == 1) {
     echo "<script>alert('삭제되었습니다');</script>";
     echo "<script>location.href='post_table';</script>";

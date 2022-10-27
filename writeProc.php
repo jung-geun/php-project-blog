@@ -13,17 +13,19 @@ $db_conn = new db_conn();
 echo "<xmp>";
 echo "\$_POST<br>";
 print_r($_POST);
-echo "\$_FILES['upload_file']<br>";
-print_r($_FILES['upload_file']);
+// echo "\$_FILES['upload_file']<br>";
+// print_r($_FILES['upload_file']);
 
-$write_result = $db_conn->board_write($user_id, $title, $category, $content);
-print_r($write_result);
+// $write_result = $db_conn->post_write($user_id, $title, $category, $content);
+// print_r($write_result);
 
-echo "<script>consol.log('user_id > ',$user_id);</script>";
+// echo "<script>consol.log('user_id > ',$user_id);</script>";
 
 mkdir("./user_data/@$user_id", 0700);
+mkdir("./user_data/@$user_id/$title", 0700);
 
-$file_path = array(); 
+$file_path = array();
+
 
 foreach ($_FILES as $key => $value) {
     $file_name = $value['name'];
@@ -31,41 +33,26 @@ foreach ($_FILES as $key => $value) {
     $file_size = $value['size'];
     $file_error = $value['error'];
     $file_type = $value['type'];
-    $file_ext = explode('.', $file_name);
-    $file_ext = strtolower(end($file_ext));
-    $file_name = uniqid() . '.' . $file_ext;
-    $file_destination = './user_data/@' . $user_id . '/' . $file_name;
-    print_r($file_destination);
-    move_uploaded_file($file_tmp_name, $file_destination);
+
+    foreach ($file_name as $key => $value) {
+        $file_destination = './user_data/@' . $user_id . '/' . $title . '/' . $value;
+        print_r($file_destination);
+        $file_path[] = $file_destination;
+        if (move_uploaded_file($file_tmp_name[$key], $file_destination)) {
+            echo "파일 업로드 성공";
+        } else {
+            echo "파일 업로드 실패";
+        }
+    }
+
+    $dir = './user_data/@' . $user_id . '/' . $title . '/';
+    print_r(scandir($dir));
 }
 
-
-if ($write_result == 1) {
-    echo "<script>location.href='post_list';</script>";
-    echo "<script>location.href='login.php';</script>";
-} else {
-    echo "<script>alert('작성에 문제가 생겼습니다');</script>";
-    echo "<script>history.back();</script>";
-}
-
-
-
-// if (!empty($_POST['upload_file'])) {
-//     // print_r($_POST['upload_file']);
-//     $up_files = $_POST['upload_file'];
-//     // $files = explode(",", $files);
-//     foreach ($up_files as $file) {
-//         $file_name = explode(".", $file);
-//         // echo $file_name[0] . "<br>";
-//         $enc_name = urlencode($file_name[0]);
-//         $enc_name = base64_encode($enc_name);
-//         $file = "./data/$user_id/$enc_name.$file_name[1]";
-//         echo "되냐?";
-//         echo $file . "<br>";
-//         if (!file_exists($file)) {
-//             echo "되냐?";
-//             $t = move_uploaded_file($_FILES['upload_file']['tmp_name'], $file);
-//             echo "$t 되냐?";
-//         }
-//     }
+// if ($write_result == 1) {
+//     echo "<script>location.href='post_list';</script>";
+//     echo "<script>location.href='login.php';</script>";
+// } else {
+//     echo "<script>alert('작성에 문제가 생겼습니다');</script>";
+//     echo "<script>history.back();</script>";
 // }

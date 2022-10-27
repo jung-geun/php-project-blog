@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $("#summernote").summernote({
-    placeholder: "Hello stand alone ui",
+    placeholder: "empty...",
     tabsize: 2,
     focus: true,
     height: 450,

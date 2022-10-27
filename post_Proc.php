@@ -10,6 +10,8 @@ $uploadUrlBase = '/api/get_image/';
 $idx = 0;
 $result = array();
 
+
+
 foreach ($_FILES['file']['name'] as $f => $name) {
     $idx++;
     $name = $_FILES['file']['name'][$f];

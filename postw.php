@@ -6,7 +6,7 @@ if (session_id() == '') {
     session_start();
 }
 if (!preg_match($mobile_agent, $_SERVER['HTTP_USER_AGENT'])) {
-    echo "<script>location.href='board_write';</script>";
+    echo "<script>location.href='post_write';</script>";
 }
 if (!isset($_SESSION['user_id'])) {
     echo "<script>alert('로그인이 필요합니다.'); location.href='login';</script>";
@@ -55,32 +55,9 @@ $db_conn = new db_conn();
         <?php include "footer.php"; ?>
 
     </div>
-    <script>
-    $('#summernote').summernote({
-        placeholder: 'Hello stand alone ui',
-        tabsize: 2,
-        resize: false,
-        disableResizeEditor: true,
-        height: 570,
-        lang: "ko-KR",
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
+    <script src="./js/post_summernote.js"></script>
 
-    $(".note-group-image-url").remove();
-
-    $("#submit-btn").click(function() {
-        var text = $('#summernote').summernote('code');
-
-    });
-    </script>
+    <script src="./js/board_write.js"></script>
 </body>
 
 </html>

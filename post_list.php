@@ -1,13 +1,13 @@
 <?php
 header("Content-Type: text/html; charset=UTF-8");
-require_once 'db/db_connect.php';
+require_once './db/db_connect.php';
 $db_conn = new db_conn();
-$list_cnt = $db_conn->board_count();
-$result = $db_conn->board_list();
+$list_cnt = $db_conn->post_count();
+$result = $db_conn->post_list();
 
 ?>
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en" class="h-100">
 
 <head class="overflow-auto">
     <meta charset="utf-8" />
@@ -22,18 +22,17 @@ $result = $db_conn->board_list();
     <link href="css/board.css" rel="stylesheet" />
 </head>
 
-<body class="d-flex text-center mx-0 text-white bg-dark h-100">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<body class="d-flex <?php
+                    if ($list_cnt <= 6) {
+                        echo "h-100";
+                    } else {
+                        echo "h-auto overflow-auto";
+                    }
+                    ?> text-center mx-0 text-white bg-dark">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
         <?php include_once "header.php"; ?>
 
         <main class="px-3">
-            <!-- <section class="py-5 text-center container">
-                <div class="row py-lg-5">
-                    <div class="col-lg-6 col-md-8 mx-auto">
-                        <h1 class="fw-light">Blog</h1>
-                    </div>
-                </div>
-            </section> -->
 
             <div class="album py-5">
                 <div class="container">
@@ -49,9 +48,8 @@ $result = $db_conn->board_list();
                                             <rect width="100%" height="100%" fill="#55595c" />
                                             <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                                                 <?php
-                                                echo $row['title'];
 
-                                                echo $db_conn->id_for_category($row['category']); ?>
+                                                echo $row['title'] . " " . $db_conn->id_for_category($row['category']); ?>
                                             </text>
                                         </svg>
                                     </a>

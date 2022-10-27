@@ -5,12 +5,11 @@ if (session_id() == '') {
 }
 require_once "../db/db_connect.php";
 
-
 $db_conn = new db_conn();
 
 if (isset($_SESSION['user_id']) and isset($_SESSION['user_passwd'])) {
     $permission = $db_conn->Permission_check($_SESSION['user_id'], $_SESSION['user_passwd']);
-    if (!($permission == 2 or $permission == 3)) {
+    if (!($permission == 2 or $permission == 3 or $permission == 4)) {
         echo "<script>alert('권한이 없습니다');</script>";
         echo "<script>location.href='/';</script>";
     }

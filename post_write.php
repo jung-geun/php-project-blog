@@ -3,7 +3,7 @@ header("Content-Type: text/html; charset=UTF-8");
 $mobile_agent = "/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH-M\d+|Opera Mini|Windows CE|Nokia|SonyEricsson|webOS|PalmOS)/";
 
 if (preg_match($mobile_agent, $_SERVER['HTTP_USER_AGENT'])) {
-    echo "<script>location.href='boardw';</script>";
+    echo "<script>location.href='postw';</script>";
 }
 require_once "login_check.php";
 
@@ -13,7 +13,7 @@ $permission = $db_conn->Permission_check($_SESSION['user_id'], $_SESSION['user_p
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en" class="h-100">
 
 <head>
     <meta charset="UTF-8">
@@ -32,7 +32,7 @@ $permission = $db_conn->Permission_check($_SESSION['user_id'], $_SESSION['user_p
 </head>
 
 <body class="d-flex h-100 text-center text-white bg-dark">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
         <?php include_once "header.php"; ?>
         <main class="px-3 h-75">
             <form action="writeProc" method="POST" name="post_write" onsubmit="return check_title()" enctype='multipart/form-data'>

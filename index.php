@@ -14,12 +14,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet" />
-    <script>
-        function refresh() {
-            $("#reloaddiv").load(location.href + " #reloaddiv");
-        }
-        setInterval(refresh(), 2000);
-    </script>
+
 </head>
 
 <body class="d-flex h-100 text-center text-white bg-dark">
@@ -35,11 +30,19 @@
             <p class="lead">
                 <a href="post_list" class="btn btn-lg btn-secondary fw-bold border-white bg-white">more</a>
             </p>
+            <h1 class="live-clock"></h1>
         </main>
 
         <?php include_once 'footer.php'; ?>
     </div>
-</body>
 
+    <!-- <script>
+        function refresh() {
+            $("#reloaddiv").load(location.href + " #reloaddiv");
+        }
+        setInterval(refresh(), 2000);
+    </script> -->
+    <script src="./js/live.js"></script>
+</body>
 
 </html>

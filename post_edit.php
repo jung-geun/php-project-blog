@@ -5,6 +5,7 @@ $mobile_agent = "/(iPod|iPhone|Android|BlackBerry|SymbianOS|SCH-M\d+|Opera Mini|
 if (session_id() == '') {
     session_start();
 }
+
 $id = null;
 $id = $_GET['id'];
 if (preg_match($mobile_agent, $_SERVER['HTTP_USER_AGENT'])) {
@@ -14,13 +15,20 @@ if (preg_match($mobile_agent, $_SERVER['HTTP_USER_AGENT'])) {
 if (!isset($_SESSION['user_id'])) {
     echo "<script>alert('로그인이 필요합니다.'); location.href='login';</script>";
 }
+
 if ($id == null) {
     echo "<script>alert('잘못된 접근입니다.');</script>";
-    echo "<script>location.href='board_lsit';</script>";
+    echo "<script>location.href='post_list';</script>";
 }
+
 require_once "db/db_connect.php";
 $db_conn = new db_conn();
-$board = $db_conn->board_content($id);
+$board = $db_conn->post_content($id);
+if ($board == -1) {
+    echo "<script>alert('잘못된 접근입니다.');</script>";
+    echo "<script>location.href='post_list';</script>";
+}
+
 $row = mysqli_fetch_assoc($board);
 $content = $row['content'];
 
@@ -33,15 +41,12 @@ $content = $row['content'];
     <meta charset="UTF-8">
     <title>글 수정</title>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
     </script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
-    <link href="/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM08im8;'222222222222222wu8+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-        crossorigin="anonymous" />
+    <link href="/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM08im8;'222222222222222wu8+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -49,14 +54,17 @@ $content = $row['content'];
 </head>
 
 <body class="d-flex h-100 text-center text-white bg-dark">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="cover-container d-flex w-100 p-3 mx-auto flex-column">
         <?php include_once "header.php"; ?>
         <main class="px-3">
-            <form action="writeProc" method="POST">
+            <form action="editProc" method="POST">
 
                 <h1>게시글 수정</h1>
-                <input name="title" id="inputTitle" placeholder="제목을 작성해주세요" />
-                <textarea id="summernote" name="content"></textarea>
+                <input name="title" id="inputTitle" placeholder="제목을 작성해주세요" value="<?= $row['title'] ?>" />
+                <textarea id="summernote" name="content"><?= $row['content'] ?></textarea>
+                <input type="hidden" name="post_id" value="<?= $row['id'] ?>">
+                <input type="hidden" name="user_id" value="<?= $row['editor'] ?>">
+                <input type="hidden" name="category" value="<?= $row['category'] ?>">
                 <button class="btn btn-light">완료</button>
             </form>
         </main>
@@ -64,69 +72,10 @@ $content = $row['content'];
         <?php include "footer.php"; ?>
 
     </div>
-    <script>
-    $('#summernote').summernote({
-        placeholder: 'Hello stand alone ui',
-        tabsize: 2,
-        height: 250,
-        lang: "ko-KR",
-        resize: false,
-        disableResizeEditor: true,
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-    });
 
-    $('#summernote').summernote('code', "<?php echo $content ?>");
-    $(".note-group-image-url").remove();
+    <script src="./js/edit_summernote.js"></script>
 
-    function RealTimeImageUpdate(files, editor) {
-        var formData = new FormData();
-        var fileArr = Array.prototype.slice.call(files);
-        fileArr.forEach(function(f) {
-            if (f.type.match("image/jpg") || f.type.match("image/jpeg" || f.type.match("image/jpeg"))) {
-                alert("JPG, JPEG, PNG 확장자만 업로드 가능합니다.");
-                return;
-            }
-        });
-        for (var xx = 0; xx < files.length; xx++) {
-            formData.append("file[]", files[xx]);
-        }
-
-        $.ajax({
-            url: "./이미지 받을 백엔드 파일",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            enctype: 'multipart/form-data',
-            type: 'POST',
-            success: function(result) {
-
-                //항상 업로드된 파일의 url이 있어야 한다.
-                if (result === -1) {
-                    alert('이미지 파일이 아닙니다.');
-                    return;
-                }
-                var data = JSON.parse(result);
-                for (x = 0; x < data.length; x++) {
-                    var img = $("<img>").attr({
-                        src: data[x],
-                        width: "100%"
-                    }); // Default 100% ( 서비스가 앱이어서 이미지 크기를 100% 설정 - But 수정 가능 )
-                    console.log(img);
-                    $(editor).summernote('pasteHTML', "<img src='" + data[x] + "' style='width:100%;' />");
-                }
-            }
-        });
-    }
-    </script>
+    <script src="./js/board_write.js"></script>
 </body>
 
 </html>
